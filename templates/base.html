@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Supply Chain Optimizer</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+</head>
+<body>
+    <header>
+        <h1>Supply Chain Optimizer</h1>
+        <nav>
+            {% if user.is_authenticated %}
+                <a href="{% url 'home' %}">Home</a>
+                <a href="{% url 'optimize' %}">Optimize</a>
+                <a href="{% url 'logout' %}">Logout</a>
+            {% else %}
+                <a href="{% url 'login' %}">Login/Signup</a>
+            {% endif %}
+        </nav>
+    </header>
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+    <footer style="text-align: center;">
+        <p>&copy; {{ current_year }} Supply Chain Optimizer. All rights reserved.</p>
+        <p>P Sudharshan Babu</p>
+        <p>Pushpa Naga Sri, Nagasri Sreya</p>
+    </footer>
+</body>
+</html>

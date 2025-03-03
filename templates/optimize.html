@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="optimize-container">
+    <!-- Input Form Box -->
+    <div class="optimize-form-container">
+        <h2>Supply Chain Optimization</h2>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn">Optimize</button>
+        </form>
+        {% if result %}
+            <div class="result">
+                <h3>Result:</h3>
+                <p>{{ result }}</p>
+                {% if suggestion %}
+                    <p><strong>Suggestion:</strong> {{ suggestion }}</p>
+                {% endif %}
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- Table Box (Visible only if products exist) -->
+    {% if products %}
+    <div class="optimize-result-container">
+        <h3>Your Products</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Product Name</th>
+                    <th>Demand</th>
+                    <th>Supply</th>
+                    <th>Cost</th>
+                    <th>Suggestion</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for product in products %}
+                    <tr>
+                        <td>{{ product.name }}</td>
+                        <td>{{ product.demand }}</td>
+                        <td>{{ product.supply }}</td>
+                        <td>{{ product.cost }}</td>
+                        <td>
+                            {% if product.difference > 0 %}
+                                <span style="color: red;">Warning: Supply is less than demand. Need {{ product.absolute_difference }} more units.</span>
+                            {% elif product.difference == 0 %}
+                                <span style="color: green;">Optimal: Supply meets demand.</span>
+                            {% else %}
+                                <span style="color: blue;">Supply exceeds demand by {{ product.absolute_difference }} units.</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a href="{% url 'update_product' product.id %}" class="btn btn-update">Update</a>
+                            <form action="{% url 'delete_product' product.id %}" method="post" style="display: inline;">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-delete">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
