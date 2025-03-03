@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-$jlo38b!ab4(-b-fqi8d!x&-8+3(78rp-d@cm-d%(7849qd)8h
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['supplychainoptimizer.onrender.com','127.0.0.1']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
